@@ -1,3 +1,17 @@
+
 {
-    "_comment": "user or app preferences"
+  "hotkey": "Super+Space",
+  "launcher": "rofi",
+  "default_recent_files_limit": 10,
+  "notes": {
+    "default_extension": "md",
+    "title_from_first_line": true
+  },
+  "confirmation": {
+    "required_for_write_tools": true,
+    "skip_with_flag": "--yes"
+  },
+  "notifications": {
+    "enabled": true
+  }
 }

@@ -1,1 +1,5 @@
 #comment :  defines preferred model for command/control tasks
+
+# v1: rule-based routing in laptop_copilot/router.py , no model required.
+# If natural-language parsing later proves necessary, try a sub-2B model,
+# e.g. qwen2.5:1.5b-instruct or llama3.2:1b, and set CONTROLLER_MODEL in .env.

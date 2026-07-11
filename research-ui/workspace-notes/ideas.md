@@ -1,0 +1,1 @@
+Freeform capture space for project/product ideas surfaced during research chats. Move anything actionable into the roadmap.

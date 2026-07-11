@@ -1,1 +1,3 @@
 #comment : Defines the  preferred model for deep research tasks
+
+phi3.5:3.8b-mini-instruct-q4_K_M

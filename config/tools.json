@@ -1,3 +1,55 @@
 {
-    "_comment":"what tools are enabled and how they behave"
+   
+  "_comment": "Human-readable/editable mirror of the whitelist enforced in src/laptop_copilot/tools.py. Editing this file alone does NOT add new capabilities — it documents and can disable existing ones via 'enabled'.",
+  "tools": [
+    {
+      "name": "open_app",
+      "enabled": true,
+      "write": false,
+      "requires_confirmation": false,
+      "description": "Launch an installed application by name."
+    },
+    {
+      "name": "create_note",
+      "enabled": true,
+      "write": true,
+      "requires_confirmation": true,
+      "description": "Create a quick note in the notes directory."
+    },
+    {
+      "name": "show_recent_files",
+      "enabled": true,
+      "write": false,
+      "requires_confirmation": false,
+      "description": "List recently modified/opened files in Downloads, Documents, Desktop."
+    },
+    {
+      "name": "open_last_file",
+      "enabled": true,
+      "write": false,
+      "requires_confirmation": false,
+      "description": "Open the most recently used/downloaded file."
+    },
+    {
+      "name": "open_calendar",
+      "enabled": true,
+      "write": false,
+      "requires_confirmation": false,
+      "description": "Open a calendar application (read-only in v1)."
+    },
+    {
+      "name": "show_clipboard",
+      "enabled": true,
+      "write": false,
+      "requires_confirmation": false,
+      "description": "Show or search current clipboard contents."
+    },
+    {
+      "name": "device_status",
+      "enabled": true,
+      "write": false,
+      "requires_confirmation": false,
+      "description": "Show battery and network status."
+    }
+  ]
 }
