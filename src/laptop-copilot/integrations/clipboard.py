@@ -1,0 +1,1 @@
+#reads and writes clipboard content

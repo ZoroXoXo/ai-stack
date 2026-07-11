@@ -1,0 +1,5 @@
+#What it does: Central project configuration file for packaging, dependencies, and tooling.
+#Logic used: Defines project metadata, dependency info, and tool settings such as test or lint
+#configuration.
+#Interconnection: Connects the src/ package to the Python environment, test tools, and
+#install workflow

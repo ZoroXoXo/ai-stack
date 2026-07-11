@@ -1,0 +1,1 @@
+<!-- explains model trade-offs and choices -->
