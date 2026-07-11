@@ -1,0 +1,67 @@
+# Python (Prevents Python-generated compiled files from cluttering the repo.)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments (Prevents your local Python environment from being committed; these folders can be large and are machine-specific.)
+.venv/
+venv/
+env/
+ENV/
+
+# Environment and secrets (Helps prevent API keys, tokens, passwords, and secret config from being pushed.)
+.env
+.env.*
+!.env.example
+
+# Tool caches (Prevents tool cache folders from polluting Git history.)
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Build / packaging (Prevents packaging/build output from being committed.)
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs (Ignores log contents but keeps the logs folder trackable with .gitkeep.)
+logs/*
+!logs/.gitkeep
+*.log
+
+# Local app data (Keeps temporary app data, local memory stores, and local databases out of the repo. These are usually runtime state, not source code.)
+data/cache/
+data/memory/
+*.sqlite3
+*.db
+
+# VS Code (Keeps your personal editor settings and workspace preferences out of the shared repo.)
+.vscode/
+
+# Other IDE/editor files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS junk (Avoids useless OS-generated junk files from macOS and Windows.)
+.DS_Store
+Thumbs.db
+
+# Local AI / model artifacts (Prevents huge local model files from being committed; these can make the repo enormous.)
+models/*.gguf
+models/*.bin
+models/*.safetensors
+models/*.pt
+models/*.onnx
+
+# Open WebUI / local runtime extras (Keeps app runtime state and temporary files out of Git.)
+research-ui/runtime/
+research-ui/uploads/
+research-ui/tmp/
