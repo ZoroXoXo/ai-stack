@@ -48,7 +48,7 @@ def _register(pattern: str):
     return decorator
 
 
-@_register(r"^open\s+(?:app|application)?\s*(.+)$")
+@_register(r"^open\s+(?:app|application)?\s*(?!(?:last|latest)\b)(.+)$")
 def _route_open_app(m: re.Match) -> Intent:
     return Intent(tool_name="open_app", args={"app_name": m.group(1).strip()})
 
