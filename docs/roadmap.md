@@ -1,6 +1,3 @@
-<!-- what comes next -->
-<!--  drives future work in tests/, src/, and research-ui/ -->
-
 # Roadmap
 
 Derived from PRD milestones. Check items off as they land.
@@ -35,6 +32,12 @@ Derived from PRD milestones. Check items off as they land.
 - [ ] Performance and startup-time improvements
 
 ## Milestone 5 — Productization
+- [x] One-app shell: PySide6 `QMainWindow` with sidebar + stacked Copilot /
+      Research / Settings pages (`src/laptop_copilot/ui/desktop.py`)
+- [x] Copilot page wired to the existing router/tools/memory pipeline
+- [x] Research page launches Ollama + Open WebUI and opens it in-browser
+- [x] Settings page shows live Ollama status, model list, and the active
+      tool whitelist
 - [ ] Custom branding
 - [ ] Tauri packaging for both surfaces (or a unified shell — TBD, see open
       questions in the PRD)
