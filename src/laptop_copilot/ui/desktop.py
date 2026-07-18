@@ -11,6 +11,9 @@ or:
 """
 from __future__ import annotations
 
+import os
+os.environ.setdefault("QTWEBENGINE_CHROMIUM_FLAGS", "--use-vulkan --ignore-gpu-blocklist --disable-gpu-compositing")
+
 import sys
 
 from PySide6.QtCore import Qt, QSize
