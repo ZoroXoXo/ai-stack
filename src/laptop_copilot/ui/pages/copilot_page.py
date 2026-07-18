@@ -6,7 +6,10 @@ do what the CLI can already do, via the same whitelist.
 from __future__ import annotations
 
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 from PySide6.QtWidgets import (
+    QFrame,
+    QGraphicsDropShadowEffect,
     QHBoxLayout,
     QLabel,
     QLineEdit,
@@ -33,9 +36,21 @@ class CopilotPage(QWidget):
         outer.setContentsMargins(24, 24, 24, 24)
         outer.setSpacing(12)
 
+        card = QFrame()
+        card.setObjectName("card")
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setBlurRadius(24)
+        shadow.setXOffset(0)
+        shadow.setYOffset(8)
+        shadow.setColor(QColor(0, 0, 0, 35))
+        card.setGraphicsEffect(shadow)
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(18, 18, 18, 18)
+        card_layout.setSpacing(12)
+
         heading = QLabel("Copilot")
         heading.setStyleSheet("font-size: 18px; font-weight: 600;")
-        outer.addWidget(heading)
+        card_layout.addWidget(heading)
 
         hint = QLabel(
             "Try: \u201copen firefox\u201d \u00b7 \u201cnote: buy milk\u201d \u00b7 "
@@ -43,7 +58,7 @@ class CopilotPage(QWidget):
         )
         hint.setWordWrap(True)
         hint.setStyleSheet("color: gray;")
-        outer.addWidget(hint)
+        card_layout.addWidget(hint)
 
         input_row = QHBoxLayout()
         self.input = QLineEdit()
@@ -54,7 +69,7 @@ class CopilotPage(QWidget):
         run_btn.setCursor(Qt.PointingHandCursor)
         input_row.addWidget(self.input)
         input_row.addWidget(run_btn)
-        outer.addLayout(input_row)
+        card_layout.addLayout(input_row)
 
         splitter = QSplitter(Qt.Horizontal)
 
@@ -77,9 +92,15 @@ class CopilotPage(QWidget):
 
         splitter.setStretchFactor(0, 2)
         splitter.setStretchFactor(1, 1)
-        outer.addWidget(splitter, stretch=1)
+        card_layout.addWidget(splitter, stretch=1)
+
+        outer.addWidget(card, stretch=1)
 
         self.refresh_history()
+
+    def run_request_text(self, text: str) -> None:
+        self.input.setText(text)
+        self.run_request()
 
     def append_output(self, text: str) -> None:
         self.output.append(text)

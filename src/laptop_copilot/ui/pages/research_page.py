@@ -10,7 +10,17 @@ import webbrowser
 from typing import Optional
 
 from PySide6.QtCore import QProcess, Qt
-from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QTextEdit, QVBoxLayout, QWidget
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import (
+    QGraphicsDropShadowEffect,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 from laptop_copilot.config import settings
 
@@ -33,9 +43,21 @@ class ResearchPage(QWidget):
         outer.setContentsMargins(24, 24, 24, 24)
         outer.setSpacing(12)
 
+        card = QFrame()
+        card.setObjectName("card")
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setBlurRadius(24)
+        shadow.setXOffset(0)
+        shadow.setYOffset(8)
+        shadow.setColor(QColor(0, 0, 0, 25))
+        card.setGraphicsEffect(shadow)
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(18, 18, 18, 18)
+        card_layout.setSpacing(12)
+
         heading = QLabel("Research")
         heading.setStyleSheet("font-size: 18px; font-weight: 600;")
-        outer.addWidget(heading)
+        card_layout.addWidget(heading)
 
         desc = QLabel(
             "The research workspace runs as Open WebUI, backed by local Ollama "
@@ -44,13 +66,13 @@ class ResearchPage(QWidget):
         )
         desc.setWordWrap(True)
         desc.setStyleSheet("color: gray;")
-        outer.addWidget(desc)
+        card_layout.addWidget(desc)
 
         self.model_label = QLabel(
             f"Model: {os.environ.get('RESEARCH_MODEL', 'phi3.5:3.8b-mini-instruct-q4_K_M')}"
         )
         self.model_label.setStyleSheet("font-style: italic; color: gray;")
-        outer.addWidget(self.model_label)
+        card_layout.addWidget(self.model_label)
 
         btn_row = QHBoxLayout()
         self.start_btn = QPushButton("Start Research Session")
@@ -62,16 +84,18 @@ class ResearchPage(QWidget):
         self.open_btn.setCursor(Qt.PointingHandCursor)
         btn_row.addWidget(self.start_btn)
         btn_row.addWidget(self.open_btn)
-        outer.addLayout(btn_row)
+        card_layout.addLayout(btn_row)
 
         self.status = QLabel("Not started.")
-        outer.addWidget(self.status)
+        card_layout.addWidget(self.status)
 
         self.log = QTextEdit()
         self.log.setReadOnly(True)
         self.log.setPlaceholderText("Startup output will appear here\u2026")
         self.log.setStyleSheet("background: #ffffff; border: 1px solid #d1d5db; border-radius: 14px; padding: 14px;")
-        outer.addWidget(self.log, stretch=1)
+        card_layout.addWidget(self.log, stretch=1)
+
+        outer.addWidget(card, stretch=1)
 
     def start_session(self) -> None:
         script = settings.root_dir / "scripts" / "run-research-ui.sh"

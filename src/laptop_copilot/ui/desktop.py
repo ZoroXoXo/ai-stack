@@ -58,7 +58,8 @@ class MainWindow(QMainWindow):
         header_layout.addWidget(title_label)
         header_layout.addStretch()
         self.search = QLineEdit()
-        self.search.setPlaceholderText("Search the app7 commands, settings, files7")
+        self.search.setPlaceholderText("Search the app — commands, settings, files")
+        self.search.setClearButtonEnabled(True)
         self.search.setFixedWidth(360)
         header_layout.addWidget(self.search)
 
@@ -116,6 +117,7 @@ class MainWindow(QMainWindow):
         # assemble main layout
         main_v.addWidget(header)
         main_v.addWidget(content)
+        self.search.returnPressed.connect(self._on_search)
         self.btn_copilot.clicked.connect(lambda: self._select(0))
         self.btn_research.clicked.connect(lambda: self._select(1))
         self.btn_settings.clicked.connect(lambda: self._select(2))
@@ -125,6 +127,14 @@ class MainWindow(QMainWindow):
         self.stack.setCurrentIndex(index)
         for i, b in enumerate((self.btn_copilot, self.btn_research, self.btn_settings)):
             b.setChecked(i == index)
+
+    def _on_search(self) -> None:
+        query = self.search.text().strip()
+        if not query:
+            return
+        self.search.clear()
+        self._select(0)
+        self.page_copilot.run_request_text(query)
 
 
 def run() -> None:
@@ -140,6 +150,7 @@ def run() -> None:
         QFrame#sidebar QPushButton:checked { background: transparent; color: white; border: none; border-left: 4px solid #60a5fa; padding-left: 12px; }
         QFrame#sidebar QPushButton { background: transparent; color: rgba(255,255,255,0.9); border: none; text-align: left; padding: 10px 14px; }
         QFrame#sidebar QPushButton:hover { background: rgba(255,255,255,0.05); }
+        QFrame#card { background: #ffffff; border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 20px; }
         QPushButton:hover { background: #e2e8f0; }
         QPushButton:pressed { background: #c7d2fe; }
         QLineEdit, QTextEdit, QListWidget, QComboBox { background: #ffffff; border: 1px solid #d1d5db; border-radius: 12px; padding: 10px; }

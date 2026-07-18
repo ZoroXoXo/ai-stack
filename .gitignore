@@ -64,4 +64,4 @@ models/*.onnx
 # Open WebUI / local runtime extras (Keeps app runtime state and temporary files out of Git.)
 research-ui/runtime/
 research-ui/uploads/
-research-ui/tmp/
+research-ui/tmp/\n# Personal notes (local, not checked in)\ndata/notes/

@@ -11,7 +11,17 @@ import urllib.error
 import urllib.request
 
 from PySide6.QtCore import QThread, Signal, Qt
-from PySide6.QtWidgets import QLabel, QListWidget, QPushButton, QTextEdit, QVBoxLayout, QWidget
+from PySide6.QtGui import QColor
+from PySide6.QtWidgets import (
+    QGraphicsDropShadowEffect,
+    QFrame,
+    QLabel,
+    QListWidget,
+    QPushButton,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 from laptop_copilot.config import settings
 
@@ -45,33 +55,47 @@ class SettingsPage(QWidget):
         outer.setContentsMargins(24, 24, 24, 24)
         outer.setSpacing(12)
 
+        card = QFrame()
+        card.setObjectName("card")
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setBlurRadius(24)
+        shadow.setXOffset(0)
+        shadow.setYOffset(8)
+        shadow.setColor(QColor(0, 0, 0, 25))
+        card.setGraphicsEffect(shadow)
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(18, 18, 18, 18)
+        card_layout.setSpacing(12)
+
         heading = QLabel("Settings")
         heading.setStyleSheet("font-size: 18px; font-weight: 600;")
-        outer.addWidget(heading)
+        card_layout.addWidget(heading)
 
-        outer.addWidget(QLabel(f"Ollama host: {settings.ollama_host}"))
-        outer.addWidget(QLabel(f"Controller model: {settings.controller_model}"))
-        outer.addWidget(QLabel(f"Confirm write actions: {settings.require_confirmation}"))
+        card_layout.addWidget(QLabel(f"Ollama host: {settings.ollama_host}"))
+        card_layout.addWidget(QLabel(f"Controller model: {settings.controller_model}"))
+        card_layout.addWidget(QLabel(f"Confirm write actions: {settings.require_confirmation}"))
 
         self.check_btn = QPushButton("Check Ollama Status")
         self.check_btn.clicked.connect(self.check_ollama)
         self.check_btn.setCursor(Qt.PointingHandCursor)
-        outer.addWidget(self.check_btn)
+        card_layout.addWidget(self.check_btn)
 
         self.status_label = QLabel("Status: not checked yet.")
-        outer.addWidget(self.status_label)
+        card_layout.addWidget(self.status_label)
 
-        outer.addWidget(QLabel("Available models:"))
+        card_layout.addWidget(QLabel("Available models:"))
         self.model_list = QListWidget()
         self.model_list.setStyleSheet("border: 1px solid #d1d5db; border-radius: 14px;")
-        outer.addWidget(self.model_list, stretch=1)
+        card_layout.addWidget(self.model_list, stretch=1)
 
-        outer.addWidget(QLabel("Whitelisted tools (config/tools.json):"))
+        card_layout.addWidget(QLabel("Whitelisted tools (config/tools.json):"))
         self.tools_view = QTextEdit()
         self.tools_view.setReadOnly(True)
         self.tools_view.setStyleSheet("background: #ffffff; border: 1px solid #d1d5db; border-radius: 14px; padding: 12px;")
         self._load_tools_config()
-        outer.addWidget(self.tools_view, stretch=1)
+        card_layout.addWidget(self.tools_view, stretch=1)
+
+        outer.addWidget(card, stretch=1)
 
     def _load_tools_config(self) -> None:
         try:
