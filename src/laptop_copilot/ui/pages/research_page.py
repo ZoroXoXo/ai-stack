@@ -1,14 +1,12 @@
 """Research page: starts the Ollama + Open WebUI stack (scripts/run-research-ui.sh)
-and opens it in the default browser. The research workspace itself is Open
-WebUI running in the browser, not reimplemented in Qt — this page is just a
-launcher/status surface, per the PRD's product split.
+and embeds it inside the desktop app. This page launches the research stack
+and shows the Open WebUI workspace through an integrated browser view.
 """
 from __future__ import annotations
 
 from typing import Optional
 
 import os
-os.environ.setdefault("QTWEBENGINE_CHROMIUM_FLAGS", "--use-vulkan --ignore-gpu-blocklist")
 
 from PySide6.QtCore import QProcess, QUrl, Qt
 from PySide6.QtGui import QColor
@@ -77,7 +75,7 @@ class ResearchPage(QWidget):
         btn_row = QHBoxLayout()
         self.start_btn = QPushButton("Start Research Session")
         self.start_btn.clicked.connect(self.start_session)
-        self.open_btn = QPushButton("Open Research in App")
+        self.open_btn = QPushButton("Load Research Workspace")
         self.open_btn.clicked.connect(self.open_browser)
         self.open_btn.setEnabled(False)
         self.start_btn.setCursor(Qt.PointingHandCursor)

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=AI Stack
+Comment=Run the AI Stack desktop application
+Exec=%ROOT%/scripts/run-desktop.sh
+Icon=%ROOT%/resources/ai-stack.svg
+Terminal=false
+Categories=Utility;Development;
+StartupNotify=true

@@ -11,4 +11,5 @@ if [ -d .venv ]; then
 fi
 
 export PYTHONPATH="${ROOT_DIR}/src:${PYTHONPATH:-}"
+export QTWEBENGINE_CHROMIUM_FLAGS="--use-vulkan --ignore-gpu-blocklist --disable-gpu-compositing"
 python3 -m laptop_copilot.ui.desktop "$@"
