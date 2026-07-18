@@ -51,6 +51,7 @@ class CopilotPage(QWidget):
         self.input.returnPressed.connect(self.run_request)
         run_btn = QPushButton("Run")
         run_btn.clicked.connect(self.run_request)
+        run_btn.setCursor(Qt.PointingHandCursor)
         input_row.addWidget(self.input)
         input_row.addWidget(run_btn)
         outer.addLayout(input_row)
@@ -60,6 +61,7 @@ class CopilotPage(QWidget):
         self.output = QTextEdit()
         self.output.setReadOnly(True)
         self.output.setPlaceholderText("Output will appear here\u2026")
+        self.output.setStyleSheet("background: #ffffff; border: 1px solid #d1d5db; border-radius: 14px; padding: 14px;")
         splitter.addWidget(self.output)
 
         history_container = QWidget()
@@ -68,6 +70,7 @@ class CopilotPage(QWidget):
         history_label = QLabel("Recent actions")
         history_label.setStyleSheet("font-weight: 600;")
         self.history_list = QListWidget()
+        self.history_list.setStyleSheet("border: 1px solid #d1d5db; border-radius: 14px;")
         history_layout.addWidget(history_label)
         history_layout.addWidget(self.history_list)
         splitter.addWidget(history_container)

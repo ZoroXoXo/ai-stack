@@ -10,7 +10,7 @@ import json
 import urllib.error
 import urllib.request
 
-from PySide6.QtCore import QThread, Signal
+from PySide6.QtCore import QThread, Signal, Qt
 from PySide6.QtWidgets import QLabel, QListWidget, QPushButton, QTextEdit, QVBoxLayout, QWidget
 
 from laptop_copilot.config import settings
@@ -55,6 +55,7 @@ class SettingsPage(QWidget):
 
         self.check_btn = QPushButton("Check Ollama Status")
         self.check_btn.clicked.connect(self.check_ollama)
+        self.check_btn.setCursor(Qt.PointingHandCursor)
         outer.addWidget(self.check_btn)
 
         self.status_label = QLabel("Status: not checked yet.")
@@ -62,11 +63,13 @@ class SettingsPage(QWidget):
 
         outer.addWidget(QLabel("Available models:"))
         self.model_list = QListWidget()
+        self.model_list.setStyleSheet("border: 1px solid #d1d5db; border-radius: 14px;")
         outer.addWidget(self.model_list, stretch=1)
 
         outer.addWidget(QLabel("Whitelisted tools (config/tools.json):"))
         self.tools_view = QTextEdit()
         self.tools_view.setReadOnly(True)
+        self.tools_view.setStyleSheet("background: #ffffff; border: 1px solid #d1d5db; border-radius: 14px; padding: 12px;")
         self._load_tools_config()
         outer.addWidget(self.tools_view, stretch=1)
 

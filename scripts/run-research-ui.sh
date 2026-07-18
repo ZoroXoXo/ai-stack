@@ -7,10 +7,19 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 # shellcheck disable=SC1091
-[ -f .env ] && source .env
+if [ -f .env ]; then
+  while IFS='=' read -r key value; do
+    case "$key" in
+      ''|'#*') continue ;;
+    esac
+    value="${value%\"}"
+    value="${value#\"}"
+    export "$key"="$value"
+  done < <(grep -v '^[[:space:]]*#' .env | sed '/^[[:space:]]*$/d')
+fi
 
 RESEARCH_MODEL="${RESEARCH_MODEL:-phi3.5:3.8b-mini-instruct-q4_K_M}"
-OPEN_WEBUI_PORT="${OPEN_WEBUI_PORT:-8080}"
+OPEN_WEBUI_PORT="${OPEN_WEBUI_PORT:-3000}"
 
 if ! pgrep -x "ollama" >/dev/null 2>&1; then
   echo "Starting Ollama..."
@@ -31,7 +40,7 @@ if command -v docker >/dev/null 2>&1; then
     echo "Creating open-webui container..."
     docker run -d \
       --name open-webui \
-      -p "${OPEN_WEBUI_PORT}:8080" \
+      -p "${OPEN_WEBUI_PORT}:3000" \
       --add-host=host.docker.internal:host-gateway \
       -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
       -v open-webui-data:/app/backend/data \
