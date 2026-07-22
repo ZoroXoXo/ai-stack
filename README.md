@@ -2,7 +2,7 @@
 
 > A local-first AI assistant for Linux laptops — chat, research, and safe desktop automation, all running on your own machine.
 
-[![License](https://img.shields.io/badge/license-unlicensed-lightgrey.svg)](#license)
+[![License](https://img.shields.io/badge/license-see%20LICENSE-lightgrey.svg)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Linux-blue.svg)](#requirements)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](#requirements)
 
@@ -80,17 +80,57 @@ Order is flexible — start whichever pieces you need:
 
 ```
 ai-stack/
-├── docs/                    # PRD, architecture, setup guide
-├── scripts/                 # setup + run scripts
+├── config/                       # runtime config (logging, preferences, tool whitelist)
+│   ├── logging.json
+│   ├── preferences.json
+│   └── tools.json
+├── data/                         # local cache, memory, and notes storage
+│   ├── cache/
+│   ├── memory/
+│   └── notes/
+├── docs/                         # PRD, architecture, roadmap, setup guide
+│   ├── architecture.md
+│   ├── prd.md
+│   ├── roadmap.md
+│   └── setup.md
+├── logs/
+│   └── actions.jsonl             # copilot action log
+├── models/                       # model config + recommendations
+│   ├── controller-model.txt
+│   ├── recommended-models.md
+│   └── research-model.txt
+├── research-ui/                  # Open WebUI / Ollama configuration
+│   ├── env/                      # env templates for ollama + open-webui
+│   ├── prompts/                  # system prompts (research, coding, summarizer)
+│   └── workspace-notes/          # persistent research notes
+├── resources/                    # desktop entry template + icon
+│   ├── ai-stack.desktop.template
+│   └── ai-stack.svg
+├── scripts/                      # setup + run scripts
 │   ├── setup.sh
+│   ├── dev-reset.sh
+│   ├── install-desktop.sh
 │   ├── run-research-ui.sh
 │   ├── run-copilot.sh
 │   └── run-desktop.sh
 ├── src/
 │   └── laptop_copilot/
+│       ├── main.py
+│       ├── config.py
+│       ├── memory.py
+│       ├── router.py
+│       ├── tools.py
+│       ├── integrations/         # clipboard, notifications, rofi, window control
+│       ├── services/             # command runner, file service, notes, ollama client
 │       └── ui/
-│           └── desktop.py   # PySide6 desktop shell
+│           ├── cli.py
+│           ├── desktop.py        # PySide6 desktop shell
+│           ├── status.py
+│           └── pages/            # copilot / research / settings pages
+├── tests/                        # pytest unit tests
 ├── .env.example
+├── LICENSE
+├── pyproject.toml
 └── README.md
 ```
 
@@ -141,4 +181,4 @@ PRs welcome! Please:
 
 ## License
 
-This repository currently has **no license attached**. Add a `LICENSE` file before publishing or sharing this project publicly.
+See [`LICENSE`](./LICENSE) for details.
