@@ -1,31 +1,52 @@
 # ai-stack
 
-Local-first AI assistant for Linux laptops. It combines two complementary
-products:
+> A local-first AI assistant for Linux laptops — chat, research, and safe desktop automation, all running on your own machine.
 
-- **Research Workspace** — Open WebUI + Ollama for chat, model-driven research,
-  and persistent workspace notes.
-- **Laptop Copilot** — a native Python agent (CLI + PySide6 desktop shell) for
-  safe desktop actions using a whitelist of tools.
+[![License](https://img.shields.io/badge/license-unlicensed-lightgrey.svg)](#license)
+[![Platform](https://img.shields.io/badge/platform-Linux-blue.svg)](#requirements)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](#requirements)
 
-See `docs/` for the PRD, architecture, and a longer setup guide.
+`ai-stack` combines two complementary products in one repo:
+
+| Product | What it does |
+|---|---|
+| **Research Workspace** | Open WebUI + Ollama for chat, model-driven research, and persistent workspace notes. |
+| **Laptop Copilot** | A native Python agent (CLI + PySide6 desktop shell) for safe desktop actions, using a whitelist of tools. |
+
+📚 See [`docs/`](./docs) for the PRD, architecture notes, and a longer setup guide.
+
+---
+
+## Table of contents
+
+- [Requirements](#requirements)
+- [Quick start](#quick-start)
+- [Environment variables](#environment-variables)
+- [Project structure](#project-structure)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
 
 ## Requirements
 
-- Linux (development targeted at desktop Linux)
-- Python 3.10+ (use the provided `./scripts/setup.sh` to create a `.venv`)
-- Docker (for Open WebUI runtime) and Ollama installed locally for research
+- **OS:** Linux (development targeted at desktop Linux)
+- **Python:** 3.10+ — use the provided `./scripts/setup.sh` to create a `.venv`
+- **Docker:** required for the Open WebUI runtime
+- **Ollama:** installed locally for research features
 
 ## Quick start
 
-1. Copy and adjust environment files:
+### 1. Configure your environment
 
 ```bash
 cp .env.example .env
 # edit .env if you want to change ports or model names
 ```
 
-2. Bootstrap the environment (installs Python deps into `.venv`):
+### 2. Bootstrap the project
 
 ```bash
 ./scripts/setup.sh
@@ -33,49 +54,91 @@ source .venv/bin/activate
 export PYTHONPATH="${PWD}/src"
 ```
 
-3. Start components (order is flexible):
+### 3. Start the components
+
+Order is flexible — start whichever pieces you need:
 
 ```bash
 ./scripts/run-research-ui.sh   # starts Ollama + Open WebUI (Docker)
 ./scripts/run-copilot.sh       # CLI copilot / rofi entrypoint
-./scripts/run-desktop.sh       # PySide6 desktop shell (Copilot/Research/Settings)
+./scripts/run-desktop.sh       # PySide6 desktop shell (Copilot / Research / Settings)
 ```
 
-Notes:
-- The desktop shell is at `src/laptop_copilot/ui/desktop.py` and exposes three
-  pages: Copilot, Research, Settings.
-- If your local Open WebUI frontend runs on a non-default port (e.g. 3000), set
-  `FRONTEND_URL` in `.env` or `OPEN_WEBUI_PORT` to match; the UI prefers
-  `FRONTEND_URL` when present.
+> **Note:** The desktop shell lives at `src/laptop_copilot/ui/desktop.py` and exposes three pages: **Copilot**, **Research**, and **Settings**.
+>
+> If your local Open WebUI frontend runs on a non-default port (e.g. `3000`), set `FRONTEND_URL` in `.env`, or `OPEN_WEBUI_PORT` to match — the UI prefers `FRONTEND_URL` when present.
 
-## Environment variables (important)
+## Environment variables
 
-- `RESEARCH_MODEL` — model name pulled by the research script (default in
-  `.env.example`).
-- `OPEN_WEBUI_PORT` — host port to map to the Open WebUI container (script
-  defaults to `3000` in this branch).
-- `FRONTEND_URL` — optional full URL (e.g. `http://localhost:3000`) that the
-  desktop will open when the research stack is ready.
+| Variable | Description |
+|---|---|
+| `RESEARCH_MODEL` | Model name pulled by the research script (default set in `.env.example`). |
+| `OPEN_WEBUI_PORT` | Host port mapped to the Open WebUI container (defaults to `3000` on this branch). |
+| `FRONTEND_URL` | Optional full URL (e.g. `http://localhost:3000`) the desktop shell opens once the research stack is ready. |
+
+## Project structure
+
+```
+ai-stack/
+├── docs/                    # PRD, architecture, setup guide
+├── scripts/                 # setup + run scripts
+│   ├── setup.sh
+│   ├── run-research-ui.sh
+│   ├── run-copilot.sh
+│   └── run-desktop.sh
+├── src/
+│   └── laptop_copilot/
+│       └── ui/
+│           └── desktop.py   # PySide6 desktop shell
+├── .env.example
+└── README.md
+```
 
 ## Development
 
-- Use `export PYTHONPATH=${PWD}/src` when running modules during development.
-- Run unit tests with `pytest` from the repo root.
+```bash
+export PYTHONPATH="${PWD}/src"
+pytest
+```
+
+Run unit tests with `pytest` from the repo root.
 
 ## Troubleshooting
 
-- If the Research page shows an error when starting the stack, open a terminal
-  and run `docker logs open-webui --tail 200` to inspect the container logs.
-- If `.env` parsing fails (shell errors about `command not found`), ensure
-  values with spaces are quoted, e.g. `APP_NAME="AI Stack"`.
-- If the UI opens the wrong port, confirm `FRONTEND_URL` or `OPEN_WEBUI_PORT`
-  in `.env` and restart the desktop.
+<details>
+<summary><strong>Research page shows an error when starting the stack</strong></summary>
+
+Open a terminal and inspect the container logs:
+
+```bash
+docker logs open-webui --tail 200
+```
+</details>
+
+<details>
+<summary><strong>.env parsing fails ("command not found" errors)</strong></summary>
+
+Make sure values containing spaces are quoted:
+
+```bash
+APP_NAME="AI Stack"
+```
+</details>
+
+<details>
+<summary><strong>UI opens the wrong port</strong></summary>
+
+Confirm `FRONTEND_URL` or `OPEN_WEBUI_PORT` in `.env`, then restart the desktop shell.
+</details>
 
 ## Contributing
 
-PRs welcome. Keep changes small and focused; update tests where relevant.
+PRs welcome! Please:
+
+- Keep changes small and focused
+- Update or add tests where relevant
+- Describe the "why" in your PR description, not just the "what"
 
 ## License
 
-This repository currently has no attached license. Add a `LICENSE` file
-before publishing or sharing publicly.
+This repository currently has **no license attached**. Add a `LICENSE` file before publishing or sharing this project publicly.
