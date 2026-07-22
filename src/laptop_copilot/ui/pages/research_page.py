@@ -41,15 +41,15 @@ class ResearchPage(QWidget):
         outer.setContentsMargins(24, 24, 24, 24)
         outer.setSpacing(12)
 
-        card = QFrame()
-        card.setObjectName("card")
+        self.card = QFrame()
+        self.card.setObjectName("card")
         shadow = QGraphicsDropShadowEffect(self)
         shadow.setBlurRadius(24)
         shadow.setXOffset(0)
         shadow.setYOffset(8)
         shadow.setColor(QColor(0, 0, 0, 25))
-        card.setGraphicsEffect(shadow)
-        card_layout = QVBoxLayout(card)
+        self.card.setGraphicsEffect(shadow)
+        card_layout = QVBoxLayout(self.card)
         card_layout.setContentsMargins(18, 18, 18, 18)
         card_layout.setSpacing(12)
 
@@ -66,11 +66,12 @@ class ResearchPage(QWidget):
         desc.setStyleSheet("color: gray;")
         card_layout.addWidget(desc)
 
-        self.model_label = QLabel(
-            f"Model: {os.environ.get('RESEARCH_MODEL', 'phi3.5:3.8b-mini-instruct-q4_K_M')}"
-        )
+        self.research_model = os.environ.get('RESEARCH_MODEL') #'phi3.5:3.8b-mini-instruct-q4_K_M')
+        self.model_label = QLabel(f"Model: {self.research_model}")
         self.model_label.setStyleSheet("font-style: italic; color: gray;")
         card_layout.addWidget(self.model_label)
+
+       
 
         btn_row = QHBoxLayout()
         self.start_btn = QPushButton("Start Research Session")
@@ -93,7 +94,7 @@ class ResearchPage(QWidget):
         self.log.setStyleSheet("background: #ffffff; border: 1px solid #d1d5db; border-radius: 14px; padding: 14px;")
         card_layout.addWidget(self.log, stretch=1)
 
-        outer.addWidget(card, stretch=1)
+        outer.addWidget(self.card, stretch=1)
 
     def start_session(self) -> None:
         script = settings.root_dir / "scripts" / "run-research-ui.sh"
@@ -152,10 +153,11 @@ class ResearchPage(QWidget):
                 return
 
             self.webview = QWebEngineView()
-            self.webview.setMinimumHeight(420)
-            self.webview.setStyleSheet("border: 1px solid #d1d5db; border-radius: 20px; background: #ffffff;")
-            self.layout().addWidget(self.webview, stretch=2)
+            self.webview.setStyleSheet("border: none; background: #ffffff;")
+            self.layout().addWidget(self.webview, stretch=1)
 
+        # Hide the card to show the webview in full screen
+        self.card.setVisible(False)
         self.webview.setVisible(True)
         self.webview.setUrl(QUrl(self._url))
         self.status.setText("Research workspace loaded inside the app.")

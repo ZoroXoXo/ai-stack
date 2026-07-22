@@ -25,8 +25,10 @@ systemctl --user enable --now ollama   # or: ollama serve
 Pull the default research model:
 
 ```bash
-ollama pull phi3.5:3.8b-mini-instruct-q4_K_M
+#ollama pull phi3.5:3.8b-mini-instruct-q4_K_M
 ```
+
+Note: some Ollama model tags do not support the Ollama tools API. If you see a message that your model does not support tools, select a tool-compatible model in `.env` by setting `RESEARCH_MODEL`.
 
 See `models/recommended-models.md` for alternatives.
 
@@ -37,7 +39,7 @@ Docker route (recommended for isolation):
 ```bash
 docker run -d \
   --name open-webui \
-  -p 8080:8080 \
+  -p 3000:8080 \
   --add-host=host.docker.internal:host-gateway \
   -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
   -v open-webui-data:/app/backend/data \
@@ -45,7 +47,7 @@ docker run -d \
   ghcr.io/open-webui/open-webui:main
 ```
 
-Then open `http://localhost:8080` and connect it to your local Ollama
+Then open `http://localhost:3000` and connect it to your local Ollama
 instance if it isn't auto-detected.
 
 ## 4. Set up the laptop copilot

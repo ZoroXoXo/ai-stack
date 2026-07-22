@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=AI Stack
-Comment=Run the AI Stack desktop application
+Name=Zox
+Comment=Run the Zox desktop application
 Exec=%ROOT%/scripts/run-desktop.sh
 Icon=%ROOT%/resources/ai-stack.svg
 Terminal=false

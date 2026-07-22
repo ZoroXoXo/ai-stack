@@ -39,7 +39,7 @@ from laptop_copilot.ui.pages.settings_page import SettingsPage
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("AI Stack")
+        self.setWindowTitle("Zox")
         self.resize(1100, 700)
 
         root = QWidget()
@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
         header_layout = QHBoxLayout(header)
         header_layout.setContentsMargins(16, 12, 16, 12)
         header_layout.setSpacing(12)
-        title_label = QLabel("AI Stack")
+        title_label = QLabel("Zox")
         title_label.setObjectName("appTitleSmall")
         title_label.setStyleSheet("color: #111827; font-weight: 700; font-size: 14px;")
         header_layout.addWidget(title_label)
@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
         sidebar_layout.setContentsMargins(16, 16, 16, 16)
         sidebar_layout.setSpacing(12)
 
-        title = QLabel("AI Stack")
+        title = QLabel("Zox")
         title.setObjectName("appTitle")
         title.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         title.setStyleSheet("font-size: 16px; font-weight: 700;")

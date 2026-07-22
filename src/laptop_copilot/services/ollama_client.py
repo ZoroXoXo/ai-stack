@@ -47,7 +47,13 @@ def parse_intent_with_model(request_text: str, model: Optional[str] = None) -> d
     }
     with httpx.Client(base_url=settings.ollama_host, timeout=15.0) as client:
         resp = client.post("/v1/chat/completions", json=payload)
-        resp.raise_for_status()
+        try:
+            resp.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            response_text = exc.response.text.lower() if exc.response is not None else ""
+            if "does not support tools" in response_text:
+                return {"tool_name": None, "args": {}}
+            raise
         data = resp.json()
 
     content = data["choices"][0]["message"]["content"]

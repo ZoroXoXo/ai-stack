@@ -9,6 +9,9 @@ Default: **Phi-3.5 Mini** (`phi3.5:3.8b-mini-instruct-q4_K_M`)
   and context handling for its size.
 - Good starting point for study/summarization/exploratory research without
   jumping straight to a heavier (7B+) model.
+- Note: this tag may not support Ollama tools in some Ollama/Open WebUI
+  configurations. If you need tool support, choose a compatible model and
+  set `RESEARCH_MODEL` in `.env`.
 
 Upgrade paths if hardware allows:
 

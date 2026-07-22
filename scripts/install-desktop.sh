@@ -23,4 +23,4 @@ fi
 
 echo "Installed desktop entry: $OUT"
 
-echo "You can now launch 'AI Stack' from your desktop environment's application menu." 
+echo "You can now launch 'Zox' from your desktop environment's application menu." 

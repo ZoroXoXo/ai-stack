@@ -20,6 +20,7 @@ fi
 
 RESEARCH_MODEL="${RESEARCH_MODEL:-phi3.5:3.8b-mini-instruct-q4_K_M}"
 OPEN_WEBUI_PORT="${OPEN_WEBUI_PORT:-3000}"
+AUTO_PULL_RESEARCH_MODEL="${AUTO_PULL_RESEARCH_MODEL:-1}"
 
 if ! pgrep -x "ollama" >/dev/null 2>&1; then
   echo "Starting Ollama..."
@@ -27,9 +28,13 @@ if ! pgrep -x "ollama" >/dev/null 2>&1; then
   sleep 2
 fi
 
-if ! ollama list | grep -q "$(echo "$RESEARCH_MODEL" | cut -d: -f1)"; then
-  echo "Pulling research model: $RESEARCH_MODEL"
-  ollama pull "$RESEARCH_MODEL"
+if [ "$AUTO_PULL_RESEARCH_MODEL" != "0" ] && [ "$AUTO_PULL_RESEARCH_MODEL" != "false" ]; then
+  if ! ollama list | grep -q "$(echo "$RESEARCH_MODEL" | cut -d: -f1)"; then
+    echo "Pulling research model: $RESEARCH_MODEL"
+    ollama pull "$RESEARCH_MODEL"
+  fi
+else
+  echo "Model auto-pull disabled. Make sure $RESEARCH_MODEL is installed before opening Research."
 fi
 
 if command -v docker >/dev/null 2>&1; then
