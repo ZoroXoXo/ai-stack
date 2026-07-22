@@ -1,4 +1,4 @@
-# ai-stack
+# AI-Stack
 
 > A local-first AI assistant for Linux laptops — chat, research, and safe desktop automation, all running on your own machine.
 
